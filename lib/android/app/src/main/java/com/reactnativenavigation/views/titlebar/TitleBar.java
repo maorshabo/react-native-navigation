@@ -101,6 +101,7 @@ public class TitleBar extends Toolbar {
             } else if (leftButtonController != null) {
                 view.setX(direction == 1 ? (getWidth() - view.getWidth()) - getContentInsetStartWithNavigation() : getContentInsetStartWithNavigation());
             } else {
+                int xOffset = UiUtils.dpToPx(getContext(), 16);
                 view.setX(direction == 1 ? (getWidth() - view.getWidth()) - xOffset : xOffset);
                 // view.setX(UiUtils.dpToPx(getContext(), DEFAULT_LEFT_MARGIN));
             }
@@ -171,7 +172,7 @@ public class TitleBar extends Toolbar {
     }
 
     private void setLeftButton(TitleBarButtonController button) {
-        Integer direction = reactViewController.getActivity().getWindow().getDecorView().getLayoutDirection();
+        Integer direction = button.getActivity().getWindow().getDecorView().getLayoutDirection();
         leftButtonController = button;
         button.applyNavigationIcon(this, direction);
     }

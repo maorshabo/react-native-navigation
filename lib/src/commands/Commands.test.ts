@@ -48,7 +48,8 @@ describe('Commands', () => {
           }
         },
         modals: [],
-        overlays: []
+        overlays: [],
+        direction: 'ltr',
       });
     });
 
@@ -129,7 +130,8 @@ describe('Commands', () => {
               options: {}
             }
           }
-        ]
+        ],
+        direction: 'ltr'
       });
     });
   });
@@ -449,7 +451,7 @@ describe('Commands', () => {
         getLaunchArgs: ['id']
       };
       const paramsForMethodName = {
-        setRoot: { commandId: 'setRoot+UNIQUE_ID', layout: { root: 'parsed', modals: [], overlays: [] } },
+        setRoot: { commandId: 'setRoot+UNIQUE_ID', layout: { direction: 'ltr', root: 'parsed', modals: [], overlays: [] } },
         setDefaultOptions: { options: {} },
         mergeOptions: { componentId: 'id', options: {} },
         showModal: { commandId: 'showModal+UNIQUE_ID', layout: 'parsed' },

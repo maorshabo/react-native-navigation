@@ -1,7 +1,9 @@
 package com.reactnativenavigation.react;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.Arguments;
@@ -11,6 +13,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.i18nmanager.I18nUtil;
 import com.reactnativenavigation.NavigationActivity;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.parse.LayoutFactory;
@@ -38,9 +41,9 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 
     @SuppressWarnings("WeakerAccess")
     public NavigationModule(ReactApplicationContext reactContext, ReactInstanceManager reactInstanceManager) {
-		super(reactContext);
-		this.reactInstanceManager = reactInstanceManager;
-		reactInstanceManager.addReactInstanceEventListener(context -> eventEmitter = new EventEmitter(context));
+        super(reactContext);
+        this.reactInstanceManager = reactInstanceManager;
+        reactInstanceManager.addReactInstanceEventListener(context -> eventEmitter = new EventEmitter(context));
     }
 
 	@Override

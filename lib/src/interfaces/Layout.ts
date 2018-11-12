@@ -116,6 +116,7 @@ export interface LayoutRoot {
   root?: Layout;
   modals?: any;
   overlays?: any;
+  direction?: string;
 }
 
 export interface Layout<P = {}> {

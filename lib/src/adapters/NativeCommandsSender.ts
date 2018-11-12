@@ -6,7 +6,7 @@ export class NativeCommandsSender {
     this.nativeCommandsModule = NativeModules.RNNBridgeModule;
   }
 
-  setRoot(commandId: string, layout: { root: any, modals: any[], overlays: any[] }) {
+  setRoot(commandId: string, layout: { direction: string, root: any, modals: any[], overlays: any[] }) {
     return this.nativeCommandsModule.setRoot(commandId, layout);
   }
 
