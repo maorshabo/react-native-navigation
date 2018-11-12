@@ -23,7 +23,7 @@ public class NavigationIconResolver {
         this.imageLoader = imageLoader;
     }
 
-    public void resolve(Button button, Task<Drawable> onSuccess) {
+    public void resolve(Button button, Integer direction, Task<Drawable> onSuccess) {
         if (button.icon.hasValue()) {
             imageLoader.loadIcon(context, button.icon.get(), new ImageLoadingListenerAdapter() {
                 @Override
@@ -37,7 +37,7 @@ public class NavigationIconResolver {
                 }
             });
         } else if (Constants.BACK_BUTTON_ID.equals(button.id)) {
-            onSuccess.run(ContextCompat.getDrawable(context, R.drawable.ic_arrow_back_black_24dp));
+            onSuccess.run(ContextCompat.getDrawable(context, direction == 0 ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_arrow_back_black_rtl_24dp));
         } else {
             Log.w("RNN", "Left button needs to have an icon");
         }

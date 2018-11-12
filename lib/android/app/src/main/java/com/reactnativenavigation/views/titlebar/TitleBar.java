@@ -95,12 +95,14 @@ public class TitleBar extends Toolbar {
 
     private void alignTextView(Alignment alignment, TextView view) {
         view.post(() -> {
+            Integer direction = view.getParent().getLayoutDirection();
             if (alignment == Alignment.Center) {
                 view.setX((getWidth() - view.getWidth()) / 2);
             } else if (leftButtonController != null) {
-                view.setX(getContentInsetStartWithNavigation());
+                view.setX(direction == 1 ? (getWidth() - view.getWidth()) - getContentInsetStartWithNavigation() : getContentInsetStartWithNavigation());
             } else {
-                view.setX(UiUtils.dpToPx(getContext(), DEFAULT_LEFT_MARGIN));
+                view.setX(direction == 1 ? (getWidth() - view.getWidth()) - xOffset : xOffset);
+                // view.setX(UiUtils.dpToPx(getContext(), DEFAULT_LEFT_MARGIN));
             }
         });
     }
@@ -169,8 +171,9 @@ public class TitleBar extends Toolbar {
     }
 
     private void setLeftButton(TitleBarButtonController button) {
+        Integer direction = reactViewController.getActivity().getWindow().getDecorView().getLayoutDirection();
         leftButtonController = button;
-        button.applyNavigationIcon(this);
+        button.applyNavigationIcon(this, direction);
     }
 
     public void setRightButtons(List<TitleBarButtonController> rightButtons) {

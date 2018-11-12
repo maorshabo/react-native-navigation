@@ -96,8 +96,8 @@ public class TitleBarButtonController extends ViewController<TitleBarReactButton
         return true;
     }
 
-    public void applyNavigationIcon(Toolbar toolbar) {
-        navigationIconResolver.resolve(button, icon -> {
+    public void applyNavigationIcon(Toolbar toolbar, Integer direction) {
+        navigationIconResolver.resolve(button, direction, icon -> {
             setIconColor(icon);
             toolbar.setNavigationOnClickListener(view -> onPressListener.onPress(button.id));
             toolbar.setNavigationIcon(icon);

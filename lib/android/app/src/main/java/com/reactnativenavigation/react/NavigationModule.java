@@ -64,7 +64,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
         final LayoutNode layoutTree = LayoutNodeParser.parse(JSONParser.parse(rawLayoutTree).optJSONObject("root"));
 		handle(() -> {
             navigator().setEventEmitter(eventEmitter);
-            final ViewController viewController = newLayoutFactory().create(layoutTree);
+            final ViewController viewController = newLayoutFactory(rawLayoutTree.getString("direction")).create(layoutTree);
             navigator().setRoot(viewController, new NativeCommandListener(commandId, promise, eventEmitter, now));
         });
 	}
@@ -83,7 +83,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 	public void push(String commandId, String onComponentId, ReadableMap rawLayoutTree, Promise promise) {
         final LayoutNode layoutTree = LayoutNodeParser.parse(JSONParser.parse(rawLayoutTree));
 		handle(() -> {
-            final ViewController viewController = newLayoutFactory().create(layoutTree);
+            final ViewController viewController = newLayoutFactory(rawLayoutTree.getString("direction")).create(layoutTree);
             navigator().push(onComponentId, viewController, new NativeCommandListener(commandId, promise, eventEmitter, now));
         });
 	}
@@ -92,7 +92,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
     public void setStackRoot(String commandId, String onComponentId, ReadableMap rawLayoutTree, Promise promise) {
         final LayoutNode layoutTree = LayoutNodeParser.parse(JSONParser.parse(rawLayoutTree));
         handle(() -> {
-            final ViewController viewController = newLayoutFactory().create(layoutTree);
+            final ViewController viewController = newLayoutFactory(rawLayoutTree.getString("direction")).create(layoutTree);
             navigator().setStackRoot(onComponentId, viewController, new NativeCommandListener(commandId, promise, eventEmitter, now));
         });
     }
@@ -116,7 +116,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 	public void showModal(String commandId, ReadableMap rawLayoutTree, Promise promise) {
 		final LayoutNode layoutTree = LayoutNodeParser.parse(JSONParser.parse(rawLayoutTree));
 		handle(() -> {
-            final ViewController viewController = newLayoutFactory().create(layoutTree);
+            final ViewController viewController = newLayoutFactory(rawLayoutTree.getString("direction")).create(layoutTree);
             navigator().showModal(viewController, new NativeCommandListener(commandId, promise, eventEmitter, now));
         });
 	}
@@ -138,7 +138,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 	public void showOverlay(String commandId, ReadableMap rawLayoutTree, Promise promise) {
         final LayoutNode layoutTree = LayoutNodeParser.parse(JSONParser.parse(rawLayoutTree));
         handle(() -> {
-            final ViewController viewController = newLayoutFactory().create(layoutTree);
+            final ViewController viewController = newLayoutFactory(rawLayoutTree.getString("direction")).create(layoutTree);
             navigator().showOverlay(viewController, new NativeCommandListener(commandId, promise, eventEmitter, now));
         });
 	}
@@ -153,7 +153,18 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 	}
 
 	@NonNull
-	private LayoutFactory newLayoutFactory() {
+	private LayoutFactory newLayoutFactory(String direction) {
+	    Activity appActivity = activity();
+        appActivity.getWindow().getDecorView().setLayoutDirection(direction.equals("rtl") ? View.LAYOUT_DIRECTION_RTL : View.LAYOUT_DIRECTION_LTR);
+
+        I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
+        if(direction.equals("rtl")) {
+            sharedI18nUtilInstance.allowRTL(getReactApplicationContext(), true);
+            sharedI18nUtilInstance.forceRTL(getReactApplicationContext(), true);
+        } else {
+            sharedI18nUtilInstance.allowRTL(getReactApplicationContext(), false);
+            sharedI18nUtilInstance.forceRTL(getReactApplicationContext(), false);
+        }
 		return new LayoutFactory(activity(),
                 navigator().getChildRegistry(),
                 reactInstanceManager,

@@ -33,9 +33,10 @@ export class Commands {
       return overlayLayout;
     });
 
+    const direction = simpleApi.direction ? simpleApi.direction : 'ltr';
     const commandId = this.uniqueIdProvider.generate('setRoot');
-    const result = this.nativeCommandsSender.setRoot(commandId, { root, modals, overlays });
-    this.commandsObserver.notify('setRoot', { commandId, layout: { root, modals, overlays } });
+    const result = this.nativeCommandsSender.setRoot(commandId, { direction, root, modals, overlays });
+    this.commandsObserver.notify('setRoot', { commandId, layout: { direction, root, modals, overlays } });
     return result;
   }
 
